@@ -13,6 +13,7 @@ import java.util.List;
 public class EmployeeDAOImp implements EmployeeDAO{
     @Autowired
     private SessionFactory sessionFactory;
+
     @Override
     public List<Employee> getAllEmployees() {
         Session session=sessionFactory.getCurrentSession();
@@ -25,6 +26,23 @@ public class EmployeeDAOImp implements EmployeeDAO{
     @Override
     public void saveEmployee(Employee employee) {
         Session session=sessionFactory.getCurrentSession();
-        session.save(employee);
+        session.saveOrUpdate(employee);
+    }
+
+    @Override
+    public Employee getEmployee(int id) {
+        Session session=sessionFactory.getCurrentSession();
+        Employee employee=session.get(Employee.class,id);
+        return employee;
+    }
+
+    @Override
+    public void deleteEmploye(int id) {
+        Session session=sessionFactory.getCurrentSession();
+        Query<Employee> query=session.createQuery("delete from Employee "+
+                "where id=:emloyeeId");
+        query.setParameter("emloyeeId",id);
+        query.executeUpdate();
+
     }
 }
