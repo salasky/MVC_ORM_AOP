@@ -2,9 +2,12 @@ package com.Migranov.MVC.controller;
 
 import com.Migranov.MVC.dao.EmployeeDAO;
 import com.Migranov.MVC.entity.Employee;
+import com.Migranov.MVC.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.persistence.ManyToMany;
@@ -14,11 +17,25 @@ import java.util.Map;
 @Controller
 public class MyController {
     @Autowired
-    private EmployeeDAO employeeDAO;
-    @RequestMapping("/emps")
+    private EmployeeService employeeService;
+    @RequestMapping("/allEmployees")
     public String showAllEmployees(Model model){
-            List<Employee> allEmployees=employeeDAO.getAllEmployees();
+            List<Employee> allEmployees=employeeService.getAllEmployees();
         model.addAttribute("allEmps", allEmployees);
         return "allEmployees";
+    }
+    @RequestMapping("/addNewEmployee")
+    public String addNewEmployee(Model model){
+        Employee employee=new Employee();
+        model.addAttribute("employee",employee);
+        return "employee-info";
+
+    }
+    @RequestMapping("/saveEmployee")
+    public String saveEmployee(@ModelAttribute("employee") Employee employee){
+
+        employeeService.saveEmployee(employee);
+
+        return "redirect:/allEmployees ";
     }
 }

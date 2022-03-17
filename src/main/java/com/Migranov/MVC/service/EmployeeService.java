@@ -1,10 +1,10 @@
-package com.Migranov.MVC.dao;
+package com.Migranov.MVC.service;
 
 import com.Migranov.MVC.entity.Employee;
 
 import java.util.List;
 
-public interface EmployeeDAO {
+public interface EmployeeService {
     public List<Employee> getAllEmployees();
     public void saveEmployee(Employee employee);
 }
